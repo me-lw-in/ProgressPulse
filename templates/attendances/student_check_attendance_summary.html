@@ -1,0 +1,86 @@
+{% extends "student_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "attendances/css/student_check_attendance_summary_styles.css" %}">
+<style>
+    label {
+        font-family: 'Poppins', sans-serif;
+        font-size: 1.4rem;
+        font-weight: 700
+    }
+</style>
+{% endblock link %}
+{% block title %}Attendance Summary | {% endblock title %}
+{% block check %}
+active
+{% endblock check %}
+
+{% block main %}
+
+<div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{student.name}}</h2>
+                    <p>Username: {{student.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Course</h5>
+                <p>{{course_name}}</p>
+                <h5>Email</h5>
+                <p>{{student.email}}</p>
+                <h5>Semester</h5>
+                <p>{{student.get_sem_display}}</p>
+                <h5>Admission Year</h5>
+                <p>{{student.AdmissionYear}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <form action="{% url 'attendances:attendance-history' %}" method="POST">
+            {% csrf_token %}
+        <label for="select_date">Select Date: </label>
+        <input type="date" id="select_date" name="attendance_date" required>
+        <button type="submit" id="Btn">Get Data</button>
+        </form>
+
+        {% if data %}
+        <div class="student_details">
+            <table class="attendance_summary">
+                <thead>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Period</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for attendance in attendance_history  %}
+                    <tr>
+                        <td class="content" >{{attendance.subject_code.subject_code}}</td>
+                        <td class="content">{{attendance.subject_code.subject_name}}</td>
+                        <td class="content">{{attendance.period}}</td>
+                        <td class="content">{{attendance.attendance_date}}</td>
+                        <td class="content">{{attendance.attendance_status}}</td>
+                    </tr>
+                    {% empty %}
+                <tr>
+                    <td colspan="5" style="text-align:center; padding: 10px;">No attendance data found.</td>
+                </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+
+            {% endif %}
+
+        </div>
+
+    </main>
+</div>
+{% endblock main %}

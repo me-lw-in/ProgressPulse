@@ -1,0 +1,73 @@
+{% extends "student_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "academics/css/student_dashboard_styles.css" %}">
+{% endblock link %}
+{% block title %}Home | {% endblock title %}
+{% block home %}
+active
+{% endblock home %}
+
+{% block main %}
+  
+  <div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{student.name}}</h2>
+                    <p>Username: {{student.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Course</h5>
+                <p>{{course_name}}</p>
+                <h5>Email</h5>
+                <p>{{student.email}}</p>
+                <h5>Semester</h5>
+                <p>{{student.get_sem_display}}</p>
+                <h5>Admission Year</h5>
+                <p>{{student.AdmissionYear}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <h1>Attendance</h1>
+        <div class="subjects">
+            {% for theory_subject_data in theory_subject_attendance %}
+            <div class="cs">
+                <span class="material-icons-sharp">computer</span>
+                <h3>{{ theory_subject_data.subject.subject_name }}</h3>    
+                <h2>{{theory_subject_data.attendance_count}}/{{theory_subject_data.subject.total_classes}}</h2>
+                <small class="text-muted">Percentage - {% widthratio theory_subject_data.attendance_count theory_subject_data.subject.total_classes 100 %}%</small>
+            </div>
+            {% endfor %}
+            
+            {% if lang_subject != 'no_language_subjects' %}
+            {% for lang_subject_data in lang_subject_attendance %}
+            <div class="cs">
+                <span class="material-icons-sharp">computer</span>
+                <h3>{{ lang_subject_data.subject.subject_name }}</h3>
+                <h2>{{lang_subject_data.attendance_count}}/{{lang_subject_data.subject.total_classes}}</h2>
+                <small class="text-muted">Percentage - {% widthratio lang_subject_data.attendance_count lang_subject_data.subject.total_classes 100 %}%</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+            
+            {% if lab_subject != 'no_lab_subjects' %}
+            {% for lab_subject_data in lab_subject_attendance %}
+            <div class="cs">
+                <span class="material-icons-sharp">computer</span>
+                <h3>{{ lab_subject_data.subject.subject_name }}</h3>
+                <h2>{{lab_subject_data.attendance_count}}/{{lab_subject_data.subject.total_classes}}</h2>
+                <small class="text-muted">Percentage - {% widthratio lab_subject_data.attendance_count lab_subject_data.subject.total_classes 100 %}%</small>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+   
+</div>
+
+{% endblock main %}

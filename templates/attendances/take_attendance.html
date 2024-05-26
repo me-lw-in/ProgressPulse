@@ -1,0 +1,107 @@
+{% extends "teacher_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "attendances/css/take_attendance_styles.css" %}">
+{% endblock link %}
+
+{% block title %}Take Attendance | {% endblock title %}
+
+{% block main %}
+
+<div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{teacher.name}} </h2>
+                    <p>Username: {{teacher.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Email</h5>
+                <p>{{teacher.email}}</p>
+                <h5>Semester</h5>
+                <p>{{teacher.get_sem_display}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="student_details">
+            <h1>Student Details</h1>
+            <form id="attendanceForm" method="POST" action="{% url 'attendances:submit-attendance' %}">
+            {% csrf_token %}
+            <input type="hidden" name="subject_code" value="{{subject.subject_code}}">
+            <input type="hidden" name="subject_sem" value="{{subject.sem}}">
+            <input type="hidden" name="subject_type" value="{{subject.subject_type}}">
+            <input type="hidden" name="total_classes" value="{{subject.total_classes}}">
+            <textarea id="attendanceDataTextarea" name="attendance_data" style="display: none;"></textarea>
+            <table class="student_data">
+                <thead>
+                    <tr>
+                        <th class="tablehead">Reg. No.</th>
+                        <th class="tablehead">Name</th>
+                        <th class="tablehead">Course</th>
+                        <th class="tablehead">Subject Name</th>
+                        {% if success %}
+                        <th class="period">Period
+                            <select id="periodSelect">
+                                <option value="--">--</option>
+                                <option value="Morning">Morning</option>
+                                <option value="Afternoon">Afternoon</option>
+                            </select>
+                        </th>
+                        {% else %}                       
+                        <th class="period">Period
+                            <select id="periodSelect">
+                                <option value="--">--</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                            </select>
+                        </th>
+                        {% endif %}
+                        <th class="status">Status</th>
+                        <th class="checkbox">
+                            <input type="checkbox" id="cbSelectAll" />
+                            <label for="cbSelectAll" class="check-box"></label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td class="tablebody">{{student.username}}</td>
+                        <td class="tablebody">{{student.name}}</td>
+                        <td class="tablebody">{{student.year_id}}</td>
+                        <td class="tablebody">{{subject.subject_name}}</td>
+                        <td class="period">--</td>
+                        <td class="status">A</td>
+                        <td class="checkbox">
+                            <input type="checkbox" name="attendance[]" value="{{ student.username }}" class="cbRow" />
+                            <label for="cbRow" class="check-box"></label>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <input type="hidden" name="period" id="periodInput" value="" />
+            <input type="hidden" name="teacher_date" id="teacherDateInput" value="" />
+    
+            <div class="button-container">
+                <button id="submitBtn" type="button">Save and Submit</button>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+    <script src="{% static "attendances/js/take_attendance_script.js" %}"></script>
+
+
+    {% endblock main %}

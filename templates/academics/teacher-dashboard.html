@@ -1,0 +1,87 @@
+{% extends "teacher_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "academics/css/teacher_dashboard_styles.css" %}">
+{% endblock link %}
+{% block title %}Home | {% endblock title %}
+{% block home %}
+active
+{% endblock home %}
+
+{% block main %}
+  
+  <div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{teacher.name}} </h2>
+                    <p>Username: {{teacher.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Email</h5>
+                <p>{{teacher.email}}</p>
+                <h5>Semester</h5>
+                <p>{{teacher.get_sem_display}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <h1>Take Attendance</h1>
+        <div class="subjects">
+            {% for subject in subjects %}
+            <div class="sub attendance">
+                <a href="{% url 'attendances:take-attendance' subject_code=subject.subject_code %}">
+                    <span class="material-icons-sharp">architecture</span>
+                    <h3>{{subject.subject_name}}</h3>
+                    {% if subject.is_normal_lab %}
+                        {% if subject.display_lab_batch %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.lab_batch_type }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% else %}
+                        {% if subject.display_section %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.section }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+        </div>
+        <h1><br>Total Classes</h1>
+        <div class="subjects subject_hour">
+            {% for subject in subjects %}
+            <div class="subs">
+                <span class="material-icons-sharp">architecture</span>
+                <h3>{{subject.subject_name}}</h3>
+                <h2>{{subject.total_classes}}</h2>
+                {% if subject.is_normal_lab %}
+                        {% if subject.display_lab_batch %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.lab_batch_type }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% else %}
+                        {% if subject.display_section %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.section }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% endif %}
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </main>
+</div>
+    
+
+{% endblock main %}
+
+

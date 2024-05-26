@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Data | Progress Pulse</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <!-- =====favicons===== -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static "favicon/apple-touch-icon.png" %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static "favicon/favicon-32x32.png" %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static "favicon/favicon-16x16.png" %}">
+    <link rel="manifest" href="{% static "favicon/site.webmanifest" %}">
+
+    <style>
+        /* Add your custom styles here */
+        .form-group {
+            height: auto;
+        }
+        .form-group .form-control,
+        .form-group .btn {
+            height: 38px;
+        }
+    </style>
+</head>
+<body>
+   
+    
+    <div class="container">
+        {% if error_message %}
+        <h2> {{ error_message }}</h2>
+        {% endif %}
+        <div class="form-group">
+            <label for="users">1. Users</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <input type="file" id="users" accept=".xlsx" name="users" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="course">2. Course</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                <input type="file" id="course" accept=".xlsx" name="course" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="year">3. Year</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                <input type="file" id="year" accept=".xlsx" name="year" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="section">4. Section</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                <input type="file" id="section" accept=".xlsx" name="section" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="subject">5. Subject</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                <input type="file" id="subject" accept=".xlsx" name="subject" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="teachersubject">6. TeacherSubject</label>
+            <div class="input-group">
+                <form action="{% url "accounts:upload" %}" method="post" enctype="multipart/form-data">
+                     {% csrf_token %}
+                <input type="file" id="teachersubject" accept=".xlsx" name="teachersubject" required class="form-control">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-primary">Upload</button>
+                </div>
+            </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% extends "teacher_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "attendances/css/attendance_summary_styles.css" %}">
+{% endblock link %}
+{% block title %}Attendance Summary | {% endblock title %}
+{% block check %}
+active
+{% endblock check %}
+{% block main %}
+
+<div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{teacher.name}} </h2>
+                    <p>Username: {{teacher.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Email</h5>
+                <p>{{teacher.email}}</p>
+                <h5>Semester</h5>
+                <p>{{teacher.get_sem_display}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <div class="student_details">
+            <table class="attendance_summary">
+                <tr class="main_heading">
+                    <th colspan="2"><h1>Total Students- {{total_students}}</h1></th>  
+                </tr>
+                <tr class="main_heading">
+                    <th colspan="2"><h2>Present Students- {{total_present}}</h2></th> 
+                </tr>
+                <tr>
+                    <th class="content">Registration Number</th>
+                    <th class="content">Full Name</th>               
+                </tr>
+                {% for student in present_students %}
+                <tr>
+                    <td class="content" style="border-bottom: 1px solid black;">{{ student.registration_no.username }}</td>
+                    <td class="content" style="border-bottom: 1px solid black;">{{ student.registration_no.name }}</td>
+                </tr>
+                {% endfor %}
+                <tr class="main_heading">
+                    <th colspan="2"><h2>Absent Students- {{total_absent}}</h2></th> 
+                </tr>
+                <tr>
+                    <th class="content">Registration Number</th>
+                    <th class="content">Full Name</th>               
+                </tr>
+                {% for student in absent_students %}
+                <tr>
+                    <td class="content" style="border-bottom: 1px solid black;">{{ student.registration_no.username }}</td>
+                    <td class="content" style="border-bottom: 1px solid black;">{{ student.registration_no.name }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+           
+        </div>
+    </main>
+</div>
+    {% endblock main %}

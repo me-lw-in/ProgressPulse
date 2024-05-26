@@ -1,0 +1,57 @@
+{% extends "teacher_base.html" %}
+{% load static %}
+{% block link %}
+<link rel="stylesheet" href="{% static "attendances/css/teacher_check_attendance_styles.css" %}">
+{% endblock link %}
+{% block title %}Check Attendance | {% endblock title %}
+{% block check %}
+active
+{% endblock check %}
+
+{% block main %}
+
+<div class="container">
+    <aside>
+        <div class="profile">
+            <div class="top">
+                <div class="info">
+                    <h2>Hello, {{teacher.name}} </h2>
+                    <p>Username: {{teacher.username}}</p>
+                </div>
+            </div>
+            <div class="about">
+                <h5>Email</h5>
+                <p>{{teacher.email}}</p>
+                <h5>Semester</h5>
+                <p>{{teacher.get_sem_display}}</p>
+            </div>
+        </div>
+    </aside>
+
+    <main>
+        <h1>Select Subject</h1>
+        <div class="subjects">
+            {% for subject in subjects %}
+            <div class="sub attendance">
+                <a href="{% url 'attendances:attendance-summary' subject_code=subject.subject_code %}">
+                    <span class="material-icons-sharp">architecture</span>
+                    <h3>{{subject.subject_name}}</h3>
+                    {% if subject.is_normal_lab %}
+                        {% if subject.display_lab_batch %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.lab_batch_type }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% else %}
+                        {% if subject.display_section %}
+                            <p>{{ subject.year_id.year_name }} - {{ subject.section }}</p>
+                        {% else %}
+                            <p>{{ subject.year_id.year_name }}</p>
+                        {% endif %}
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </main>
+</div>
+{% endblock main %}
